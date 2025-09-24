@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+    postgres-db:
+        image: postgres:15
+        container_name: postgres-db
+        restart: always
+        environment:
+            POSTGRES_DB: investment
+            POSTGRES_USER: investment_user
+            POSTGRES_PASSWORD: investment_password
+        ports:
+            - "5433:5432"
+        volumes:
+            - db-data:/var/lib/postgresql/data
+            - ./init-scripts:/docker-entrypoint-initdb.d
+
+    mongo-db:
+        image: mongo:latest
+        container_name: mongo-db
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: mongo_user
+            MONGO_INITDB_ROOT_PASSWORD: mongo_password
+            MONGO_INITDB_DATABASE: investments_db
+        ports:
+            - "27017:27017"
+        volumes:
+            - mongo-data:/data/db
+volumes:
+    db-data:
+    mongo-data:
